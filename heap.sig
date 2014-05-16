@@ -1,17 +1,18 @@
 signature HEAP =
 sig
 
+  type t
   type 'a heap
 
-  val createHeap : 'a heap
-  (*val heapify : 'a list -> 'a heap*)
-  val findMin : 'a heap -> 'a
-  (*val deleteMin : 'a heap -> 'a heap*)
-  val merge : 'a heap -> 'a heap -> 'a heap
-  (*val increaseKey : 'a heap -> 'a heap*)
-  (*val decreaseKey : 'a heap -> 'a heap*)
-  val insert : 'a heap -> 'a -> 'a heap
-  val size : 'a heap -> int
-  val isEmpty : 'a heap -> bool
+  val createHeap : t heap
+  (*val heapify : t list -> t heap*)
+  val findMin : t heap -> t
+  (*val deleteMin : t heap -> t heap*)
+  val merge : t heap -> t heap -> t heap
+  (*val decreaseKey : t heap -> t heap*)
+  val insert : t heap -> t -> t heap
+  val size : t heap -> int
+  val isEmpty : t heap -> bool
+  val heapEqual : t heap * t heap -> bool
 
 end
