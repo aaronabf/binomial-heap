@@ -1,4 +1,6 @@
-binomial-heap
+Binomial Heap
 =============
 
-an implementation of binomial heap implementation in sml
+An implementation of binomial heaps in sml.
+
+Some important functions, such as heapify, decrease key, delete min, etc., have not (yet?) been implemented.

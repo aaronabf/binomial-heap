@@ -4,3 +4,5 @@ Group is
   heap.sig
   compare.sig
   binomial-heap.sml
+  testing.sml
+
