@@ -15,7 +15,6 @@ struct
 
   structure H = BinomialHeap(IntCompare)
 
-
   val testHeap1 = H.insert (H.insert (H.insert (H.insert(H.insert (H.createHeap) 5) 1) 8) 3) 8
   val testHeap1' = H.insert (H.insert (H.insert (H.insert (H.insert (H.createHeap) 8) 3) 1) 5) 8
   val testHeap2 = H.insert (H.insert (H.insert (H.insert (H.createHeap) 14) 7) 8) 2

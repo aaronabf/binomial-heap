@@ -1,14 +1,12 @@
 functor BinomialHeap (C : COMPARE) : HEAP =
 struct
-  exception Empty
+  exception HeapError
 
-  (* Binomial tree defined as a recursive datatype:
-      (value, list of children trees) *)
+  (* Binomial tree defined as (node value, list of children trees) *)
   datatype 'a bintree = Node of 'a * ('a bintree) list
 
-
-  (* Heap data structure defined as a full binomial heap with
-      each tree stored along with its the rank *)
+  (* Heap data structure defined as a full binomial heap, a list of each
+      (binomial tree, rank). This list must be in ascending rank order *)
   type t = C.t
   type 'a heap = (t bintree * int) list
 
@@ -20,9 +18,9 @@ struct
   (* findMin : t heap -> t
      REQUIRES: h is a valid binomial heap
      ENSURES: findMin h returns the min element of
-              h or raises Empty if h is empty
+              h; raises HeapError if h is empty
   *)
-  fun findMin [] = raise Empty
+  fun findMin [] = raise HeapError
     | findMin [(Node(e, _), _)] = e
     | findMin ((Node(e1, _), _) :: xs) =
       let
@@ -56,20 +54,6 @@ struct
           in
              merge [newTree] (merge l1 l2)
           end
-
-
-(*
-fun insTree ([], T) = [T]
-       | insTree (H as T'::H', T) =
-       if rank T < rank T' then T::H
-       else if rank T' < rank T then T' :: insTree (H', T)
-       else insTree (H', link (T, T'))
-
-fun insert (H, k, d) = insTree (H, Node(0,k,d,[]))
-
-      | merge (H1 as T1::H1', H2 as T2::H2') =
-         else insTree (merge (H1', H2'), link (T1, T2))*)
-
 
 
   (* insert : t heap -> t heap
@@ -107,12 +91,12 @@ fun insert (H, k, d) = insTree (H, Node(0,k,d,[]))
      ENSURES: heapEqual h1 h2 returns true if heaps are equal; false otherwise
   *)
   fun heapEqual ([], []) = true
-    | heapEqual ((t1, r1 : int) :: h1, (t2, r2 : int) :: h2) =
+    | heapEqual ((t1, r1) :: h1, (t2, r2) :: h2) =
       let
         fun treeEqual ([], []) = true
-          | treeEqual (Node(e1,b1) :: xs, Node(e2,b2) :: ys) =
+          | treeEqual (Node(e1,b1) :: l1, Node(e2,b2) :: l2) =
              (case C.compare(e1, e2) of
-                C.EQUAL => treeEqual (b1, b2) andalso treeEqual(xs,ys)
+                C.EQUAL => treeEqual (b1, b2) andalso treeEqual (l1,l2)
                 | _ => false)
           | treeEqual (_,_) = false
       in
